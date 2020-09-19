@@ -1,98 +1,156 @@
-class ArrayQueue:
+class Node: 
 
-    DEFAULT_CAPACITY = 10
-
-    def _init_(self):
-
-        self._data = [None] * ArrayQueue.DEFAULT_CAPACITY
-        self._size = 0
-        self._front = 0
-        self._back = 0
-
-    def _len_(self):
-        return self._size
-
-    def is_empty(self):
-        return self._size == 0
-
-    def first(self):
-        if self.is_empty():
-            raise Exception("Queue is empty")
-        return self._data[self._front]
-
-    def dequeueFirst(self):
-        if self.is_empty():
-            raise Empty('Queue is empty')
-        answer = self._data[self._front]
-        self._data[self._front] = None
-        self._front = (self._front + 1) % len(self._data)
-        self._size -= 1
-        self._back = (self._front + self._size - 1) % len(self._data)
-        return answer
-
-    def dequeueBack(self):
-
-        if self.is_empty():
-            raise Empty('Queue is empty')
-        back = (self._front + self._size - 1) % len(self._data)
-        answer = self._data[back]
-        self._data[back] = None
-        self._front = self._front
-        self._size -= 1
-        self._back = (self._front + self._size - 1) % len(self._data)
-        return answer
-
-    def enqueuelast(self, e):
-
-        if self._size == len(self._data):
-            self._resize(2 * len(self.data))
-        avail = (self._front + self._size) % len(self._data)
-        self._data[avail] = e
-        self._size += 1
-        self._back = (self._front + self._size - 1) % len(self._data)
-
-    def enqueueFirst(self, e):
-
-        if self._size == len(self._data):
-            self._resize(2 * len(self._data))
-        self._front = (self._front - 1) % len(self._data)
-        avail = (self._front + self._size) % len(self._data)
-        self._data[self._front] = e
-        self._size += 1
-        self._back = (self._front + self._size - 1) % len(self._data)
-
-    def _resize(self, cap):
-
-        old = self._data
-        self._data = [None] * cap
-        walk = self._front
-        for k in range(self._size):
-            self._data[k] = old[walk]
-            walk = (1 + walk) % len(old)
-        self._front = 0
-        self._back = (self._front + self._size - 1) % len(self._data)
-
+    def _init_ (self, element, next = None ):
+        self.element = element
+        self.next = next
     def display(self):
-        return self._data
+        print(self.element)
 
+class LinkedList:
+        
+    def _init_(self):
+        self.head = None
+        self.size = 0
+        
+ 
+        
+    def _len_(self):
+        return self.size
+    
+    
+    def is_empty(self):
+        return self.size == 0 
+    
+    def display(self):
+        if self.size == 0:
+            print("No element")
+            return 
+        first = self.head
+        print(first.element)
+        first = first.next
+        while first:
+            
+            print(first.element)
+            first = first.next
+    
+    
+    def add_head(self,e):
+        temp = self.head 
+        self.head = Node(e) 
+        self.head.next = temp
+        self.size += 1 
+        
+    def get_tail(self):
+        last_object = self.head
+        while (last_object.next != None):
+            last_object = last_object.next
+        return last_object
+        
+    
+    def remove_head(self):
+        if self.is_empty():
+            print("Empty Singly linked list")
+        else:
+            print("Removing")
+            self.head = self.head.next
+            self.size -= 1
+            
+    def add_tail(self,e):
+        new_value = Node(e)
+        self.get_tail().next = new_value
+        self.size += 1
+        
+    def find_second_last_element(self):
+        #second_last_element = None
+        
+        
+        if self.size >= 2:
+            first = self.head 
+            temp_counter = self.size -2
+            while temp_counter > 0:
+                first = first.next 
+                temp_counter -= 1 
+            return first
+        
+        
+        else:
+            print("Size not sufficient")
+            
+        return None
 
-l1 = ArrayQueue()
-l1.enqueueFirst(3)
-l1.enqueueFirst(5)
-l1.enqueueFirst(6)
-l1.enqueuelast(7)
-l1.enqueuelast(8)
+        
+        
+    def remove_tail(self):
+        if self.is_empty():
+            print("Empty Singly linked list")
+        elif self.size == 1:
+            self.head == None
+            self.size -= 1
+        else: 
+            Node = self.find_second_last_element()
+            if Node:
+                Node.next = None
+                self.size -= 1
+                
+    def get_node_at(self,index):
+        element_node = self.head
+        counter = 0
+        if index > self.size-1:
+            print("Index out of bound")
+            return None
+        while(counter < index):
+            element_node = element_node.next
+            counter += 1
+        return element_node
+  
+        
+                
+    def remove_between_list(self,position):
+        if position > self.size-1:
+            print("Index out of bound")
+        elif position == self.size-1:
+            self.remove_tail()
+        elif position == 0:
+            self.remove_head()
+        else:
+            prev_node = self.get_node_at(position-1)
+            next_node = self.get_node_at(position+1)
+            prev_node.next = next_node
+            self.size -= 1
+            
+    def add_between_list(self,position,element):
+        if position > self.size:
+            print("Index out of bound")
+        elif position == self.size:
+            self.add_tail(element)
+        elif position == 0:
+            self.add_head(element)
+        else:
+            prev_node = self.get_node_at(position-1)
+            current_node = self.get_node_at(position)
+            prev_node.next = element
+            element.next = current_node
+            self.size -= 1
+        
+    def search (self,search_value):
+        index = 0 
+        while (index < self.size):
+            value = self.get_node_at(index)
+            print("Searching at " + str(index) + " and value is " + str(value.element))
+            if value.element == search_value:
+                print("Found value at " + str(index) + " location")
+                return True
+            index += 1
+        print("Not Found")
+        return False
+    
+    def merge(self,linkedlist_value):
+        if self.size > 0:
+            last_node = self.get_node_at(self.size-1)
+            last_node.next = linkedlist_value.head
+            self.size = self.size + linkedlist_value.size
+            
+        else:
+            self.head = linkedlist_value.head
+            self.size = linkedlist_value.size
 
-print(f"full lisr {l1._data()}")
-print(f"len of list {l1._len_()}")
-print(
-    f"first value is {l1._data[l1._front]} last value is {l1._data[l1._back]}")
-
-l1.dequeueFirst(3)
-l1.dequeuelast(7)
-l1.dequeuelast(8)
-
-print(f"full lisr {l1._data()}")
-print(f"len of list {l1._len_()}")
-print(
-    f"first value is {l1._data[l1._front]} last value is {l1._data[l1._back]}")
