@@ -1,4 +1,4 @@
-##finding polynomial
+##finding polynomial using link list
 class Node: 
 
     def __init__ (self, element, next = None ):
