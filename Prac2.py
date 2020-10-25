@@ -61,11 +61,6 @@ class LinkedList:
         self.get_tail().next = new_value
         self.size += 1
  
-        else:
-            print("Size not sufficient")
-            
-        return None
-        
     def remove_tail(self):
         if self.is_empty():
             print("Empty Singly linked list")
