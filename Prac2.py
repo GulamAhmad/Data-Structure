@@ -77,6 +77,19 @@ class LinkedList:
             if Node:
                 Node.next = None
                 self.size -= 1
+                
+    def get_node_at(self,index):
+        element_node = self.head
+        counter = 0
+        if index == 0:
+            return element_node.element
+        if index > self.size-1:
+            print("Index out of bound")
+            return None
+        while(counter < index):
+            element_node = element_node.next
+            counter += 1
+        return element_node
         
     def search (self,search_value):
         index = 0 
