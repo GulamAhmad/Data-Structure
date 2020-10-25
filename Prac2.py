@@ -60,18 +60,6 @@ class LinkedList:
         new_value = Node(e)
         self.get_tail().next = new_value
         self.size += 1
- 
-    def remove_tail(self):
-        if self.is_empty():
-            print("Empty Singly linked list")
-        elif self.size == 1:
-            self.head == None
-            self.size -= 1
-        else: 
-            Node = self.find_second_last_element()
-            if Node:
-                Node.next = None
-                self.size -= 1
                 
     def get_node_at(self,index):
         element_node = self.head
